@@ -8,7 +8,7 @@ class Module
     if defined? @parent_name
       @parent_name
     else
-      @parent_name = name =~ /::[^:]+$/ ? $`.freeze : nil
+      @parent_name = name =~ /::[^:]+$/ ? $` : nil
     end
   end
 

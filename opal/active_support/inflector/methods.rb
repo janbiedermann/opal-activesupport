@@ -20,16 +20,16 @@ module ActiveSupport
         string = string.downcase
       end
       string = string.gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
-      string = string.gsub("/".freeze, "::".freeze)
+      string = string.gsub("/", "::")
       string
     end
 
     def underscore(camel_cased_word)
       return camel_cased_word unless /[A-Z-]|::/.match?(camel_cased_word)
-      word = camel_cased_word.to_s.gsub("::".freeze, "/".freeze)
-      word = word.gsub(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2'.freeze)
-      word = word.gsub(/([a-z\d])([A-Z])/, '\1_\2'.freeze)
-      word = word.tr("-".freeze, "_".freeze)
+      word = camel_cased_word.to_s.gsub("::", "/")
+      word = word.gsub(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
+      word = word.gsub(/([a-z\d])([A-Z])/, '\1_\2')
+      word = word.tr("-", "_")
       word = word.downcase
       word
     end
@@ -44,11 +44,11 @@ module ActiveSupport
         end
       end
 
-      result = result.sub(/\A_+/, "".freeze)
+      result = result.sub(/\A_+/, "")
       unless keep_id_suffix
-        result = result.sub(/_id\z/, "".freeze)
+        result = result.sub(/_id\z/, "")
       end
-      result = result.tr("_".freeze, " ".freeze)
+      result = result.tr("_", " ")
 
       result = result.gsub(/([a-z\d]*)/i) do |match|
         "#{match.downcase}"
@@ -77,11 +77,11 @@ module ActiveSupport
 
     def classify(table_name)
       # strip out any leading schema name
-      camelize(singularize(table_name.to_s.sub(/.*\./, "".freeze)))
+      camelize(singularize(table_name.to_s.sub(/.*\./, "")))
     end
 
     def dasherize(underscored_word)
-      underscored_word.tr("_".freeze, "-".freeze)
+      underscored_word.tr("_", "-")
     end
 
     def demodulize(path)
@@ -168,7 +168,7 @@ module ActiveSupport
     private
 
       def const_regexp(camel_cased_word)
-        parts = camel_cased_word.split("::".freeze)
+        parts = camel_cased_word.split("::")
 
         return Regexp.escape(camel_cased_word) if parts.blank?
 
